@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:residencia_cepamm/src/secretaria/inicio.dart';
 
 class Inicio extends StatefulWidget {
   const Inicio({super.key});
