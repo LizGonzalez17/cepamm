@@ -17,6 +17,7 @@ class _InicioState extends State<Inicio> {
         children: [
           // Fondo blanco
           Container(color: Colors.white),
+
           // Contenido principal
           Center(
             child: Row(
@@ -29,7 +30,7 @@ class _InicioState extends State<Inicio> {
                   width: 500, // Ajusta el tamaño según sea necesario
                 ),
                 const SizedBox(width: 50), // Espaciado entre imagen y botones
-                // Botones principales
+                // Columna con los botones principales
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,14 +40,6 @@ class _InicioState extends State<Inicio> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Agregar()));
-                        // Acción para añadir registro
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    BotonPrincipal(
-                      texto: "Borrar Registro",
-                      onPressed: () {
-                        // Acción para borrar registro
                       },
                     ),
                     const SizedBox(height: 20),
@@ -64,7 +57,6 @@ class _InicioState extends State<Inicio> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Modificar()));
-                        // Acción para editar registro
                       },
                     ),
                   ],
@@ -72,10 +64,11 @@ class _InicioState extends State<Inicio> {
               ],
             ),
           ),
-          // Botón de cerrar sesión
+
+          // Botón de cerrar sesión (Posicionado hacia abajo sin mover los otros botones)
           Positioned(
-            bottom: 20,
-            right: 20,
+            bottom: 40, // Ajusta la distancia hacia abajo
+            right: 20, // Mantiene la posición horizontal del botón
             child: ElevatedButton(
               onPressed: () {
                 // Acción para cerrar sesión
@@ -84,7 +77,7 @@ class _InicioState extends State<Inicio> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.pink,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

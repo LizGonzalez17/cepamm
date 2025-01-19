@@ -26,7 +26,7 @@ class Modificar extends StatelessWidget {
               children: [
                 const Center(
                   child: Text(
-                    'fundación CEPAMM\nMÓDULO DE AÑADIR MODIFICACIONES',
+                    'fundación CEPAMM\nMÓDULO DE MODIFICACIONES',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
@@ -93,33 +93,54 @@ class Modificar extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    // Botón "Salir" con diseño actualizado
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(120, 50), // Tamaño reducido
+                        minimumSize: Size(120, 50), // Tamaño del botón
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Cuadrado
+                          borderRadius:
+                              BorderRadius.circular(8), // Bordes redondeados
                         ),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white, // Color de texto blanco
+                        backgroundColor: Colors.blue, // Fondo azul
+                        shadowColor: Colors.blueAccent, // Sombra azul
+                        elevation: 3, // Elevación para sombra
                       ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Salir'),
+                      child: const Text(
+                        'Salir',
+                        style: TextStyle(
+                          color: Colors.black, // Texto negro
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
+                    const SizedBox(width: 8),
+                    // Botón "Modificar" con diseño actualizado
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(120, 50), // Tamaño reducido
+                        minimumSize: Size(120, 50), // Tamaño del botón
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Cuadrado
+                          borderRadius:
+                              BorderRadius.circular(8), // Bordes redondeados
                         ),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.black, // Color de texto blanco
+                        backgroundColor: Colors.pink, // Fondo rosa
+                        shadowColor: Colors.pinkAccent, // Sombra rosa
+                        elevation: 3, // Elevación para sombra
                       ),
                       onPressed: () {
-                        // Lógica para guardar
+                        // Lógica para modificar
                       },
-                      child: const Text('Modificar'),
+                      child: const Text(
+                        'Modificar',
+                        style: TextStyle(
+                          color: Colors.black, // Texto negro
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ],
                 ),

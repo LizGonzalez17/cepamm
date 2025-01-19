@@ -93,34 +93,54 @@ class Agregar extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    // Botón "Salir" con nuevo diseño
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(120, 50), // Tamaño reducido
+                        minimumSize: Size(120, 50), // Tamaño del botón
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Cuadrado
+                          borderRadius:
+                              BorderRadius.circular(8), // Bordes redondeados
                         ),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white, // Color de texto blanco
+                        backgroundColor: Colors.blue, // Fondo azul
+                        shadowColor: Colors.blueAccent, // Sombra azul
+                        elevation: 3, // Elevación para sombra
                       ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Salir'),
+                      child: const Text(
+                        'Salir',
+                        style: TextStyle(
+                          color: Colors.black, // Texto negro
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 8),
+                    // Botón "Guardar" con nuevo diseño
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size(120, 50), // Tamaño reducido
+                        minimumSize: Size(120, 50), // Tamaño del botón
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Cuadrado
+                          borderRadius:
+                              BorderRadius.circular(8), // Bordes redondeados
                         ),
-                        backgroundColor: Colors.pink,
-                        foregroundColor: Colors.white, // Color de texto blanco
+                        backgroundColor: Colors.pink, // Fondo rosa
+                        shadowColor: Colors.pinkAccent, // Sombra rosa
+                        elevation: 3, // Elevación para sombra
                       ),
                       onPressed: () {
                         // Lógica para guardar
                       },
-                      child: const Text('Guardar'),
+                      child: const Text(
+                        'Guardar',
+                        style: TextStyle(
+                          color: Colors.black, // Texto negro
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ],
                 ),

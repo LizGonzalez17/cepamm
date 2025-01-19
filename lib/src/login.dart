@@ -19,7 +19,9 @@ class _LoginState extends State<Login> {
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.white, Colors.pink, Colors.cyan],
+                  colors: [
+                    Colors.white,
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -74,7 +76,12 @@ class _LoginState extends State<Login> {
                         const TextField(
                           decoration: InputDecoration(
                             labelText: 'Username',
-                            border: OutlineInputBorder(),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.pink),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
                           ),
                         ),
                         // Campo de contraseña
@@ -82,7 +89,12 @@ class _LoginState extends State<Login> {
                           obscureText: true,
                           decoration: InputDecoration(
                             labelText: 'Password',
-                            border: OutlineInputBorder(),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.pink),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
                           ),
                         ),
                         // Botón de login
@@ -114,7 +126,8 @@ class _LoginState extends State<Login> {
                             ),
                             child: const Text(
                               'Login',
-                              style: TextStyle(fontSize: 18),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         ),
