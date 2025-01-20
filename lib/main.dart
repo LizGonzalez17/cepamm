@@ -1,7 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:residencia_cepamm/database/firebase_options.dart';
 import 'package:residencia_cepamm/src/login.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DefaultFirebaseOptions.currentPlatform;
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
 
@@ -13,5 +18,3 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(home: Login());
   }
 }
-/**hola completa tu nombre */
-//Lizbeth Monserrat Victoria González

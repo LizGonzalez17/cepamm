@@ -1,7 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Agregar extends StatelessWidget {
+
+class Agregar extends StatefulWidget {
   const Agregar({Key? key}) : super(key: key);
+
+  @override
+  State<Agregar> createState() => _AgregarState();
+}
+
+class _AgregarState extends State<Agregar> {
+  final TextEditingController id = TextEditingController();
+  final TextEditingController ap = TextEditingController();
+  final TextEditingController am = TextEditingController();
+  final TextEditingController nombres = TextEditingController();
+  final TextEditingController edad = TextEditingController();
+  final TextEditingController sexo = TextEditingController();
+  final TextEditingController fn = TextEditingController();
+  final TextEditingController direccion = TextEditingController();
+  final TextEditingController tel = TextEditingController();
+
+  Future<void> saveData() async {
+    String idA = id.text;
+    String apB = ap.text;
+    String amC = am.text;
+    String nombresD = nombres.text;
+    String edadE = edad.text;
+    String sexoF = sexo.text;
+    String fnG = fn.text;
+    String direccionH = direccion.text;
+    String telI = tel.text;
+
+    if (idA.isNotEmpty &&
+        apB.isNotEmpty &&
+        amC.isNotEmpty &&
+        nombresD.isNotEmpty &&
+        edadE.isNotEmpty &&
+        sexoF.isNotEmpty &&
+        fnG.isNotEmpty &&
+        direccionH.isNotEmpty &&
+        telI.isNotEmpty) {try{QuerySnapshot snapshot = await FirebaseFirestore.instance
+            .collection('paciente')
+            .doc(idA).set({'id':idA,'apellido paterno':apB,'apellido materno':amC,'nombre(s)':nombresD,'edad':edadE,'sexo':sexoF,'fecha nacimiento':fnG,'direccion':direccionH,'tel':telI});
+  
+  }catch}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +79,10 @@ class Agregar extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 // El campo de ID Paciente más arriba
-                const TextFieldWithLabel(label: 'ID Paciente:'),
+                TextField(
+                  controller: id,
+                  decoration: InputDecoration(hintText: "id"),
+                ),
                 const SizedBox(height: 16),
                 // Organización de campos en pares
                 Row(
@@ -44,10 +90,20 @@ class Agregar extends StatelessWidget {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Apellido Paterno:'),
-                          TextFieldWithLabel(label: 'Nombre(s):'),
-                          TextFieldWithLabel(label: 'Sexo:'),
+                        children: [
+                          TextField(
+                            controller: ap,
+                            decoration:
+                                InputDecoration(hintText: "Apellido Paterno"),
+                          ),
+                          TextField(
+                            controller: nombres,
+                            decoration: InputDecoration(hintText: "Nombre(s)"),
+                          ),
+                          TextField(
+                            controller: sexo,
+                            decoration: InputDecoration(hintText: "Sexo"),
+                          ),
                         ],
                       ),
                     ),
@@ -55,10 +111,21 @@ class Agregar extends StatelessWidget {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Apellido Materno:'),
-                          TextFieldWithLabel(label: 'Edad:'),
-                          TextFieldWithLabel(label: 'Fecha de Nacimiento:'),
+                        children: [
+                          TextField(
+                            controller: am,
+                            decoration:
+                                InputDecoration(hintText: "Apellido Materno"),
+                          ),
+                          TextField(
+                            controller: edad,
+                            decoration: InputDecoration(hintText: "Edad"),
+                          ),
+                          TextField(
+                            controller: fn,
+                            decoration: InputDecoration(
+                                hintText: "Fecha de nacimiento"),
+                          ),
                         ],
                       ),
                     ),
@@ -71,8 +138,11 @@ class Agregar extends StatelessWidget {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Dirección:'),
+                        children: [
+                          TextField(
+                            controller: direccion,
+                            decoration: InputDecoration(hintText: "Dirección"),
+                          ),
                         ],
                       ),
                     ),
@@ -80,8 +150,11 @@ class Agregar extends StatelessWidget {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Teléfono celular:'),
+                        children: [
+                          TextField(
+                            controller: tel,
+                            decoration: InputDecoration(hintText: "Teléfono"),
+                          ),
                         ],
                       ),
                     ),
