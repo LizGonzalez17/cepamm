@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 
-class Modificar extends StatelessWidget {
+class Modificar extends StatefulWidget {
   const Modificar({Key? key}) : super(key: key);
 
+  @override
+  State<Modificar> createState() => _ModificarState();
+}
+
+class _ModificarState extends State<Modificar> {
+  final TextEditingController id = TextEditingController();
+  final TextEditingController ap = TextEditingController();
+  final TextEditingController am = TextEditingController();
+  final TextEditingController nombres = TextEditingController();
+  final TextEditingController edad = TextEditingController();
+  final TextEditingController sexo = TextEditingController();
+  final TextEditingController fn = TextEditingController();
+  final TextEditingController direccion = TextEditingController();
+  final TextEditingController tel = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

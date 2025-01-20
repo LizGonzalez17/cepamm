@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class Agregar extends StatefulWidget {
   const Agregar({Key? key}) : super(key: key);
 
@@ -39,11 +38,25 @@ class _AgregarState extends State<Agregar> {
         sexoF.isNotEmpty &&
         fnG.isNotEmpty &&
         direccionH.isNotEmpty &&
-        telI.isNotEmpty) {try{QuerySnapshot snapshot = await FirebaseFirestore.instance
-            .collection('paciente')
-            .doc(idA).set({'id':idA,'apellido paterno':apB,'apellido materno':amC,'nombre(s)':nombresD,'edad':edadE,'sexo':sexoF,'fecha nacimiento':fnG,'direccion':direccionH,'tel':telI});
-  
-  }catch}
+        telI.isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
+          'id': idA,
+          'apellido paterno': apB,
+          'apellido materno': amC,
+          'nombre(s)': nombresD,
+          'edad': edadE,
+          'sexo': sexoF,
+          'fecha nacimiento': fnG,
+          'direccion': direccionH,
+          'tel': telI
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al guardar el alumno: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -205,6 +218,7 @@ class _AgregarState extends State<Agregar> {
                       ),
                       onPressed: () {
                         // Lógica para guardar
+                        saveData();
                       },
                       child: const Text(
                         'Guardar',
