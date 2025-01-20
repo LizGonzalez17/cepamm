@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 class TurneroApp extends StatefulWidget {
   @override
   State<TurneroApp> createState() => _TurneroAppState();
