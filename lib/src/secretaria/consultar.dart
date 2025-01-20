@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Consultar extends StatefulWidget {
@@ -8,6 +9,68 @@ class Consultar extends StatefulWidget {
 }
 
 class _ConsultarState extends State<Consultar> {
+  final TextEditingController id = TextEditingController();
+  final TextEditingController ap = TextEditingController();
+  final TextEditingController am = TextEditingController();
+  final TextEditingController nombres = TextEditingController();
+  final TextEditingController edad = TextEditingController();
+  final TextEditingController sexo = TextEditingController();
+  final TextEditingController fn = TextEditingController();
+  final TextEditingController direccion = TextEditingController();
+  final TextEditingController tel = TextEditingController();
+  String? docId;
+  bool isLoading = false;
+
+  Future<void> buscar() async {
+    final idA = id.text.trim();
+
+    if (idA.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, ingrese el CURP')),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final document = await FirebaseFirestore.instance
+          .collection('paciente')
+          .doc(idA)
+          .get();
+
+      if (document.exists) {
+        setState(() {
+          docId = document.id;
+          final data = document.data()!;
+          nombres.text = data['nombre(s)'] ?? '';
+          ap.text = data['apellido paterno'] ?? '';
+          am.text = data['apellido materno'] ?? '';
+          edad.text = data['edad'] ?? '';
+          sexo.text = data['sexo'] ?? '';
+          fn.text = data['fecha nacimiento'] ?? '';
+          direccion.text = data['direccion'] ?? '';
+          tel.text = data['tel'] ?? '';
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('No se encontró el alumno con el CURP ingresado')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al buscar alumno: $e')),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,70 +96,87 @@ class _ConsultarState extends State<Consultar> {
             // Campos de entrada
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: TextField(
-                    decoration: InputDecoration(labelText: 'ID Paciente:'),
+                    controller: id,
+                    decoration: const InputDecoration(hintText: "id"),
                   ),
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    buscar();
+                  },
                   child: const Text('Consultar'),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             Row(
-              children: const [
+              children: [
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration(labelText: 'Apellidos:'),
+                    controller: ap,
+                    decoration: InputDecoration(hintText: "Apellido Paterno"),
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration(labelText: 'Nombre:'),
+                    controller: nombres,
+                    decoration: InputDecoration(hintText: "Nombre(s)"),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             Row(
-              children: const [
+              children: [
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration(labelText: 'Edad:'),
+                    controller: edad,
+                    decoration: InputDecoration(hintText: "Edad"),
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration(labelText: 'Sexo:'),
+                    controller: am,
+                    decoration: InputDecoration(hintText: "Apellido Materno"),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    controller: sexo,
+                    decoration: InputDecoration(hintText: "Sexo"),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             Row(
-              children: const [
+              children: [
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration(labelText: 'Teléfono Celular:'),
+                    controller: tel,
+                    decoration: InputDecoration(hintText: "Teléfono"),
                   ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                   child: TextField(
+                    controller: fn,
                     decoration:
-                        InputDecoration(labelText: 'Fecha de Nacimiento:'),
+                        InputDecoration(hintText: "Fecha de nacimiento"),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 10),
             TextField(
-              decoration: const InputDecoration(labelText: 'Dirección:'),
+              controller: direccion,
+              decoration: InputDecoration(hintText: "Dirección"),
             ),
             const SizedBox(height: 20),
             // Lista de consultas

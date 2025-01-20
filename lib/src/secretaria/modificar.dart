@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Modificar extends StatefulWidget {
@@ -17,6 +18,114 @@ class _ModificarState extends State<Modificar> {
   final TextEditingController fn = TextEditingController();
   final TextEditingController direccion = TextEditingController();
   final TextEditingController tel = TextEditingController();
+  String? docId;
+  bool isLoading = false;
+  Future<void> buscar() async {
+    final idA = id.text.trim();
+
+    if (idA.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, ingrese el CURP')),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final document = await FirebaseFirestore.instance
+          .collection('paciente')
+          .doc(idA)
+          .get();
+
+      if (document.exists) {
+        setState(() {
+          docId = document.id;
+          final data = document.data()!;
+          nombres.text = data['nombre(s)'] ?? '';
+          ap.text = data['apellido paterno'] ?? '';
+          am.text = data['apellido materno'] ?? '';
+          edad.text = data['edad'] ?? '';
+          sexo.text = data['sexo'] ?? '';
+          fn.text = data['fecha nacimiento'] ?? '';
+          direccion.text = data['direccion'] ?? '';
+          tel.text = data['tel'] ?? '';
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('No se encontró el alumno con el CURP ingresado')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al buscar alumno: $e')),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+// Función para modificar los datos en Firestore
+  Future<void> modificar() async {
+    if (docId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Primero consulta un registro')),
+      );
+      return;
+    }
+
+    if (nombres.text.trim().isEmpty ||
+        ap.text.trim().isEmpty ||
+        am.text.trim().isEmpty ||
+        edad.text.trim().isEmpty ||
+        sexo.text.trim().isEmpty ||
+        fn.text.trim().isEmpty ||
+        direccion.text.trim().isEmpty ||
+        tel.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, llena todos los campos')),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('paciente')
+          .doc(docId)
+          .update({
+        'nombre(s)': nombres.text.trim(),
+        'apellido paterno': ap.text.trim(),
+        'apellido materno': am.text.trim(),
+        'edad': edad.text.trim(),
+        'sexo': sexo.text.trim(),
+        'fecha nacimiento': fn.text.trim(),
+        'direccion': direccion.text.trim(),
+        'tel': tel.text.trim(),
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Datos actualizados exitosamente')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al modificar datos: $e')),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,18 +159,38 @@ class _ModificarState extends State<Modificar> {
                 ),
                 const SizedBox(height: 16),
                 // El campo de ID Paciente más arriba
-                const TextFieldWithLabel(label: 'ID Paciente:'),
+                TextField(
+                  controller: id,
+                  decoration: InputDecoration(hintText: "id"),
+                ),
                 const SizedBox(height: 16),
                 // Organización de campos en pares
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    buscar();
+                  },
+                  child: const Text('Consultar'),
+                ),
                 Row(
                   children: [
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Apellido Paterno:'),
-                          TextFieldWithLabel(label: 'Nombre(s):'),
-                          TextFieldWithLabel(label: 'Sexo:'),
+                        children: [
+                          TextField(
+                            controller: ap,
+                            decoration:
+                                InputDecoration(hintText: "Apellido Paterno"),
+                          ),
+                          TextField(
+                            controller: nombres,
+                            decoration: InputDecoration(hintText: "Nombre(s)"),
+                          ),
+                          TextField(
+                            controller: sexo,
+                            decoration: InputDecoration(hintText: "Sexo"),
+                          ),
                         ],
                       ),
                     ),
@@ -69,10 +198,21 @@ class _ModificarState extends State<Modificar> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Apellido Materno:'),
-                          TextFieldWithLabel(label: 'Edad:'),
-                          TextFieldWithLabel(label: 'Fecha de Nacimiento:'),
+                        children: [
+                          TextField(
+                            controller: am,
+                            decoration:
+                                InputDecoration(hintText: "Apellido Materno"),
+                          ),
+                          TextField(
+                            controller: edad,
+                            decoration: InputDecoration(hintText: "Edad"),
+                          ),
+                          TextField(
+                            controller: fn,
+                            decoration: InputDecoration(
+                                hintText: "Fecha de nacimiento"),
+                          ),
                         ],
                       ),
                     ),
@@ -85,8 +225,11 @@ class _ModificarState extends State<Modificar> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Dirección:'),
+                        children: [
+                          TextField(
+                            controller: direccion,
+                            decoration: InputDecoration(hintText: "Dirección"),
+                          ),
                         ],
                       ),
                     ),
@@ -94,8 +237,11 @@ class _ModificarState extends State<Modificar> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          TextFieldWithLabel(label: 'Teléfono celular:'),
+                        children: [
+                          TextField(
+                            controller: tel,
+                            decoration: InputDecoration(hintText: "Teléfono"),
+                          ),
                         ],
                       ),
                     ),
@@ -146,6 +292,7 @@ class _ModificarState extends State<Modificar> {
                       ),
                       onPressed: () {
                         // Lógica para modificar
+                        modificar();
                       },
                       child: const Text(
                         'Modificar',

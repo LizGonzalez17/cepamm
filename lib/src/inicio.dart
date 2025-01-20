@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:residencia_cepamm/src/secretaria/agregar.dart';
+import 'package:residencia_cepamm/src/secretaria/consultar.dart';
 import 'package:residencia_cepamm/src/secretaria/modificar.dart';
 
 class Inicio extends StatefulWidget {
@@ -46,6 +47,10 @@ class _InicioState extends State<Inicio> {
                     BotonPrincipal(
                       texto: "Consultar Datos",
                       onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Consultar()));
                         // Acción para consultar datos
                       },
                     ),
