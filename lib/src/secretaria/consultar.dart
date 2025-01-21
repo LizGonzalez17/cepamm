@@ -20,6 +20,7 @@ class _ConsultarState extends State<Consultar> {
   final TextEditingController tel = TextEditingController();
   String? docId;
   bool isLoading = false;
+  Map<String, dynamic> consultas = {}; // Aquí se guardan las consultas
 
   Future<void> buscar() async {
     final idA = id.text.trim();
@@ -53,6 +54,10 @@ class _ConsultarState extends State<Consultar> {
           fn.text = data['fecha nacimiento'] ?? '';
           direccion.text = data['direccion'] ?? '';
           tel.text = data['tel'] ?? '';
+
+          // Cargar las consultas del paciente
+          consultas = data['consultas'] ??
+              {}; // Suponiendo que consultas es un mapa en Firestore
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -111,6 +116,7 @@ class _ConsultarState extends State<Consultar> {
                 ],
               ),
               const SizedBox(height: 10),
+              // Campos para los detalles del paciente
               Row(
                 children: [
                   Expanded(
@@ -187,41 +193,30 @@ class _ConsultarState extends State<Consultar> {
                   color: Colors.lightBlue[100],
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: ListView(
+                child: ListView.builder(
                   shrinkWrap: true,
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Para evitar conflictos de scroll
-                  children: [
-                    ListTile(
-                      leading: const Icon(Icons.account_circle),
-                      title: const Text('Consulta tipo Fecha'),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon:
-                            const Icon(Icons.check_circle, color: Colors.green),
-                      ),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.account_circle),
-                      title: const Text('Consulta tipo Fecha'),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon:
-                            const Icon(Icons.check_circle, color: Colors.green),
-                      ),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      leading: const Icon(Icons.account_circle),
-                      title: const Text('Consulta tipo Fecha'),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.check_circle_outline,
-                            color: Colors.grey),
-                      ),
-                    ),
-                  ],
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: consultas.isEmpty ? 0 : consultas.length,
+                  itemBuilder: (context, index) {
+                    String key = consultas.keys.elementAt(index);
+                    String specialty =
+                        consultas[key]['especialidad'] ?? 'No disponible';
+                    String date = consultas[key]['fecha'] ?? 'No disponible';
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.account_circle),
+                          title: Text('$specialty\n' + date),
+                          trailing: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.check_circle,
+                                color: Colors.green),
+                          ),
+                        ),
+                        const Divider(),
+                      ],
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 20),

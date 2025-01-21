@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:residencia_cepamm/src/inicio.dart';
 import 'package:residencia_cepamm/src/turnos/consultaMedica.dart';
+import 'package:residencia_cepamm/src/turnos/consultarMturno.dart';
 import 'package:residencia_cepamm/src/turnos/turnos.dart';
 
 class Login extends StatefulWidget {
@@ -141,7 +142,7 @@ class _LoginState extends State<Login> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ConsultaPage()), // Pantalla principal
+                                        Consultarmturno()), // Pantalla principal
                               );
                             },
                             child: const Text("Abrir ambas pantallas"),
