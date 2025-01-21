@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Consultar extends StatefulWidget {
   const Consultar({super.key});
@@ -198,15 +199,35 @@ class _ConsultarState extends State<Consultar> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: consultas.isEmpty ? 0 : consultas.length,
                   itemBuilder: (context, index) {
+                    // Obtén la clave en la posición actual
                     String key = consultas.keys.elementAt(index);
+
+                    // Asegúrate de que `consultas[key]` sea un mapa antes de acceder a sus campos
+                    var consulta = consultas[key];
+                    if (consulta is! Map<String, dynamic>) {
+                      return ListTile(
+                        title: const Text('Datos no válidos'),
+                      );
+                    }
+
+                    // Accede a los valores del mapa con validación
                     String specialty =
-                        consultas[key]['especialidad'] ?? 'No disponible';
-                    String date = consultas[key]['fecha'] ?? 'No disponible';
+                        consulta['especialidad'] ?? 'No disponible';
+                    String date;
+
+                    // Valida si la fecha es un Timestamp
+                    if (consulta['fecha'] is Timestamp) {
+                      date = DateFormat('yyyy-MM-dd')
+                          .format((consulta['fecha'] as Timestamp).toDate());
+                    } else {
+                      date = consulta['fecha']?.toString() ?? 'No disponible';
+                    }
+
                     return Column(
                       children: [
                         ListTile(
                           leading: const Icon(Icons.account_circle),
-                          title: Text('$specialty\n' + date),
+                          title: Text('$specialty\n$date'),
                           trailing: IconButton(
                             onPressed: () {},
                             icon: const Icon(Icons.check_circle,

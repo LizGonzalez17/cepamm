@@ -104,7 +104,7 @@ class _ConsultarmturnoState extends State<Consultarmturno> {
     });
 
     try {
-      // Guardar la selección junto con la fecha actual en Firestore
+      // Guardar la especialidad en el campo 'consultas'
       await FirebaseFirestore.instance
           .collection('paciente')
           .doc(docId)
@@ -117,9 +117,12 @@ class _ConsultarmturnoState extends State<Consultarmturno> {
         'fecha nacimiento': fn.text.trim(),
         'direccion': direccion.text.trim(),
         'tel': tel.text.trim(),
-        'especialidad':
-            _selectedSpecialty, // Guardar la especialidad seleccionada
-        'fecha_registro': DateTime.now(), // Guardar la fecha actual
+        'consultas': {
+          'especialidad':
+              _selectedSpecialty, // Guardar la especialidad como un campo dentro de 'consultas'
+          'fecha_registro': DateTime
+              .now(), // Puedes guardar la fecha del registro de la especialidad si es necesario
+        },
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
