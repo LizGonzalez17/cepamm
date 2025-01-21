@@ -6,6 +6,7 @@ import 'package:residencia_cepamm/src/login.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DefaultFirebaseOptions.currentPlatform;
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }

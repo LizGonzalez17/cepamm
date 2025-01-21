@@ -13,9 +13,9 @@ dependencies:
   cloud_firestore: ^5.6.1
   firebase_storage: ^12.4.0
   firebase_auth: ^5.4.0
-  sqlite3: ^2.6.1
+  sqlite3: ^2.6.1  
   sqlite3_flutter_libs: ^0.5.29
-  
+
 
 dev_dependencies:
   flutter_test:

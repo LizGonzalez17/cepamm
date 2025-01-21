@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:residencia_cepamm/src/inicio.dart';
+import 'package:residencia_cepamm/src/turnos/consultaMedica.dart';
+import 'package:residencia_cepamm/src/turnos/turnos.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -129,6 +131,20 @@ class _LoginState extends State<Login> {
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ConsultaPage()), // Pantalla principal
+                              );
+                            },
+                            child: const Text("Abrir ambas pantallas"),
                           ),
                         ),
                       ],

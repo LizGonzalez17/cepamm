@@ -1,22 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Consulta Médica',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: ConsultaPage(),
-    );
-  }
-}
 
 class ConsultaPage extends StatefulWidget {
   @override
@@ -35,6 +18,21 @@ class _ConsultaPageState extends State<ConsultaPage> {
     'Dermatología',
     'Medicina General',
   ];
+  Future<void> saveData() async {
+    String? especialidad = _selectedSpecialty;
+
+    if (especialidad!.isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance.collection('paciente').doc('1').set({
+          'especialidad': especialidad,
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al guardar el alumno: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +145,7 @@ class _ConsultaPageState extends State<ConsultaPage> {
                         actions: [
                           TextButton(
                             onPressed: () {
+                              saveData();
                               Navigator.pop(context);
                             },
                             child: Text(

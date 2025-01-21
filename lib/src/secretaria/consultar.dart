@@ -78,159 +78,166 @@ class _ConsultarState extends State<Consultar> {
         title: const Text('MÓDULO DE CONSULTAR DATOS'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Logo y Título
-            Center(
-              child: Column(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Logo y Título
+              Center(
+                child: Column(
+                  children: [
+                    Image.asset('assets/sin.png', height: 100), // Añade tu logo
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Campos de entrada
+              Row(
                 children: [
-                  Image.asset('assets/sin.png', height: 100), // Añade tu logo
-                  const SizedBox(height: 16),
+                  Expanded(
+                    child: TextField(
+                      controller: id,
+                      decoration: const InputDecoration(hintText: "id"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: buscar,
+                    child: const Text('Consultar'),
+                  ),
                 ],
               ),
-            ),
-            const SizedBox(height: 20),
-            // Campos de entrada
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: id,
-                    decoration: const InputDecoration(hintText: "id"),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    buscar();
-                  },
-                  child: const Text('Consultar'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: ap,
-                    decoration: InputDecoration(hintText: "Apellido Paterno"),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: nombres,
-                    decoration: InputDecoration(hintText: "Nombre(s)"),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: edad,
-                    decoration: InputDecoration(hintText: "Edad"),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: am,
-                    decoration: InputDecoration(hintText: "Apellido Materno"),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: sexo,
-                    decoration: InputDecoration(hintText: "Sexo"),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: tel,
-                    decoration: InputDecoration(hintText: "Teléfono"),
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: fn,
-                    decoration:
-                        InputDecoration(hintText: "Fecha de nacimiento"),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: direccion,
-              decoration: InputDecoration(hintText: "Dirección"),
-            ),
-            const SizedBox(height: 20),
-            // Lista de consultas
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.lightBlue[100],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
+              const SizedBox(height: 10),
+              Row(
                 children: [
-                  ListTile(
-                    leading: const Icon(Icons.account_circle),
-                    title: const Text('Consulta tipo Fecha'),
-                    trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.check_circle, color: Colors.green),
+                  Expanded(
+                    child: TextField(
+                      controller: ap,
+                      decoration:
+                          const InputDecoration(hintText: "Apellido Paterno"),
                     ),
                   ),
-                  const Divider(),
-                  ListTile(
-                    leading: const Icon(Icons.account_circle),
-                    title: const Text('Consulta tipo Fecha'),
-                    trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.check_circle, color: Colors.green),
-                    ),
-                  ),
-                  const Divider(),
-                  ListTile(
-                    leading: const Icon(Icons.account_circle),
-                    title: const Text('Consulta tipo Fecha'),
-                    trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.check_circle_outline,
-                          color: Colors.grey),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: nombres,
+                      decoration: const InputDecoration(hintText: "Nombre(s)"),
                     ),
                   ),
                 ],
               ),
-            ),
-            const Spacer(),
-            // Botón Salir
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.pink,
-                ),
-                onPressed: () {},
-                child: const Text('Salir'),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: edad,
+                      decoration: const InputDecoration(hintText: "Edad"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: am,
+                      decoration:
+                          const InputDecoration(hintText: "Apellido Materno"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: sexo,
+                      decoration: const InputDecoration(hintText: "Sexo"),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: tel,
+                      decoration: const InputDecoration(hintText: "Teléfono"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextField(
+                      controller: fn,
+                      decoration: const InputDecoration(
+                          hintText: "Fecha de nacimiento"),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: direccion,
+                decoration: const InputDecoration(hintText: "Dirección"),
+              ),
+              const SizedBox(height: 20),
+              // Lista de consultas
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue[100],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListView(
+                  shrinkWrap: true,
+                  physics:
+                      const NeverScrollableScrollPhysics(), // Para evitar conflictos de scroll
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.account_circle),
+                      title: const Text('Consulta tipo Fecha'),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon:
+                            const Icon(Icons.check_circle, color: Colors.green),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.account_circle),
+                      title: const Text('Consulta tipo Fecha'),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon:
+                            const Icon(Icons.check_circle, color: Colors.green),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.account_circle),
+                      title: const Text('Consulta tipo Fecha'),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.check_circle_outline,
+                            color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Botón Salir
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                  ),
+                  onPressed: () {},
+                  child: const Text('Salir'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
