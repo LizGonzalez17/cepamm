@@ -21,7 +21,7 @@ class _ConsultarState extends State<Consultar> {
   final TextEditingController tel = TextEditingController();
   String? docId;
   bool isLoading = false;
-  Map<String, dynamic> consultas = {}; // Aquí se guardan las consultas
+  List<Map<String, dynamic>> historial = []; // Aquí guardaremos el historial
 
   Future<void> buscar() async {
     final idA = id.text.trim();
@@ -56,19 +56,35 @@ class _ConsultarState extends State<Consultar> {
           direccion.text = data['direccion'] ?? '';
           tel.text = data['tel'] ?? '';
 
-          // Cargar las consultas del paciente
-          consultas = data['consultas'] ??
-              {}; // Suponiendo que consultas es un mapa en Firestore
+          // Limpiar el historial antes de agregar nuevas consultas
+          historial.clear();
+
+          // Obtener las consultas y agregar solo especialidad y fecha de registro al historial
+          var consultas = data['consultas'] ?? {};
+          consultas.forEach((key, consulta) {
+            if (consulta is Map<String, dynamic>) {
+              String specialty = consulta['especialidad'] ?? 'No disponible';
+              String date = (consulta['fecha_registro'] is Timestamp)
+                  ? DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                      (consulta['fecha_registro'] as Timestamp).toDate())
+                  : 'No disponible';
+
+              // Agregar al historial
+              historial
+                  .add({'especialidad': specialty, 'fecha_registro': date});
+            }
+          });
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text('No se encontró el alumno con el CURP ingresado')),
+              content:
+                  Text('No se encontró el paciente con el CURP ingresado')),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al buscar alumno: $e')),
+        SnackBar(content: Text('Error al buscar paciente: $e')),
       );
     } finally {
       setState(() {
@@ -83,6 +99,7 @@ class _ConsultarState extends State<Consultar> {
       appBar: AppBar(
         title: const Text('MÓDULO DE CONSULTAR DATOS'),
         centerTitle: true,
+        automaticallyImplyLeading: false, // Desactiva la flecha de regreso
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -187,63 +204,60 @@ class _ConsultarState extends State<Consultar> {
                 decoration: const InputDecoration(hintText: "Dirección"),
               ),
               const SizedBox(height: 20),
-              // Lista de consultas
+              // Historial de consultas
               Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue[100],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: consultas.length,
-                    itemBuilder: (context, index) {
-                      // Obtén la clave y los valores en la posición actual
-                      String key = consultas.keys.elementAt(index);
-                      var consulta = consultas[key];
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue[100],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: historial.length,
+                  itemBuilder: (context, index) {
+                    // Acceder a los datos de cada consulta
+                    var consulta = historial[index];
+                    String specialty =
+                        consulta['especialidad'] ?? 'No disponible';
+                    String date = consulta['fecha_registro'] ?? 'No disponible';
 
-                      // Validar que sea un mapa válido
-                      if (consulta is! Map<String, dynamic>) {
-                        return const ListTile(
-                          title: Text('Datos no válidos'),
-                        );
-                      }
-
-                      // Accede a los valores del mapa
-                      String specialty =
-                          consulta['especialidad'] ?? 'No disponible';
-                      String date;
-                      if (consulta['fecha_registro'] is Timestamp) {
-                        date = DateFormat('yyyy-MM-dd HH:mm:ss').format(
-                            (consulta['fecha_registro'] as Timestamp).toDate());
-                      } else {
-                        date = consulta['fecha_registro']?.toString() ??
-                            'No disponible';
-                      }
-
-                      return Column(
-                        children: [
-                          ListTile(
-                            leading: const Icon(Icons.account_circle),
-                            title: Text('Especialidad: $specialty'),
-                            subtitle: Text('Fecha de registro: $date'),
-                          ),
-                          const Divider(),
-                        ],
-                      );
-                    },
-                  )),
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.account_circle),
+                          title: Text('Especialidad: $specialty'),
+                          subtitle: Text('Fecha de registro: $date'),
+                        ),
+                        const Divider(),
+                      ],
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 20),
               // Botón Salir
               Align(
                 alignment: Alignment.centerRight,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pink,
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                   ),
-                  onPressed: () {},
-                  child: const Text('Salir'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Salir',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ],
