@@ -14,28 +14,164 @@ class _InicioState extends State<Inicio> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Fondo blanco
-          Container(color: Colors.white),
+      appBar: AppBar(
+        title: const Text('funfación CEPAMM'),
+        backgroundColor: Colors.lightBlue,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Colors.lightBlue,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/sin.png',
+                    width: 150,
+                    height: 100,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'fundación CEPAMM',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_today),
+              title: const Text('Agenda'),
+              onTap: () {
+                // Navegación a Agenda
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Pacientes'),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child:
+                            PacientesPage(), // Aquí llamas directamente a tu página de pacientes
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.dashboard),
+              title: const Text('Dashboard'),
+              onTap: () {
+                // Navegación a Dashboard
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.science),
+              title: const Text('Laboratorios'),
+              onTap: () {
+                // Navegación a Laboratorios
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.attach_money),
+              title: const Text('Gastos'),
+              onTap: () {
+                // Navegación a Gastos
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.group),
+              title: const Text('Usuarios'),
+              onTap: () {
+                // Navegación a Usuarios
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.monetization_on),
+              title: const Text('Ingresos y Cobros'),
+              onTap: () {
+                // Navegación a Ingresos y Cobros
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.bar_chart),
+              title: const Text('Reportes'),
+              onTap: () {
+                // Navegación a Reportes
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Center(
+        child: Image.asset(
+          'assets/sin.png',
+          width: 600,
+        ),
+      ),
+    );
+  }
+}
 
-          // Contenido principal
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Imagen del logotipo
-                Image.asset(
-                  'assets/sin.png', // Reemplázalo con la ruta de tu imagen
-                  width: 500, // Ajusta el tamaño según sea necesario
-                ),
-                const SizedBox(width: 50), // Espaciado entre imagen y botones
-                // Columna con los botones principales
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+class PacientesPage extends StatelessWidget {
+  const PacientesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Pacientes',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el modal
+                },
+              ),
+            ],
+          ),
+          const Divider(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Center(
+                child: Column(
                   children: [
+                    Image.asset(
+                      'assets/sin.png',
+                      width: 300,
+                    ),
+                    const SizedBox(height: 20),
                     BotonPrincipal(
                       texto: "Añadir Registro",
                       onPressed: () {
@@ -51,7 +187,6 @@ class _InicioState extends State<Inicio> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Consultar()));
-                        // Acción para consultar datos
                       },
                     ),
                     const SizedBox(height: 20),
@@ -66,30 +201,6 @@ class _InicioState extends State<Inicio> {
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-
-          // Botón de cerrar sesión (Posicionado hacia abajo sin mover los otros botones)
-          Positioned(
-            bottom: 40, // Ajusta la distancia hacia abajo
-            right: 20, // Mantiene la posición horizontal del botón
-            child: ElevatedButton(
-              onPressed: () {
-                // Acción para cerrar sesión
-                Navigator.pop(context); // Regresar a la pantalla anterior
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.pink,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text(
-                "Cerrar sesión",
-                style: TextStyle(color: Colors.white),
               ),
             ),
           ),

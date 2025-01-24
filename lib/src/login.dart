@@ -138,6 +138,39 @@ class _LoginState extends State<Login> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
+                              // Lógica de login
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TurneroApp()));
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Logging in...')),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.cyan,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(4), // Borde cuadrado
+                                side: const BorderSide(
+                                  color: Colors.black, // Línea negra alrededor
+                                  width: 0.5, // Grosor de la línea
+                                ),
+                              ),
+                            ),
+                            child: const Text(
+                              'Login',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

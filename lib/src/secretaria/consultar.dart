@@ -189,57 +189,51 @@ class _ConsultarState extends State<Consultar> {
               const SizedBox(height: 20),
               // Lista de consultas
               Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.lightBlue[100],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: consultas.isEmpty ? 0 : consultas.length,
-                  itemBuilder: (context, index) {
-                    // Obtén la clave en la posición actual
-                    String key = consultas.keys.elementAt(index);
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue[100],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: consultas.length,
+                    itemBuilder: (context, index) {
+                      // Obtén la clave y los valores en la posición actual
+                      String key = consultas.keys.elementAt(index);
+                      var consulta = consultas[key];
 
-                    // Asegúrate de que `consultas[key]` sea un mapa antes de acceder a sus campos
-                    var consulta = consultas[key];
-                    if (consulta is! Map<String, dynamic>) {
-                      return ListTile(
-                        title: const Text('Datos no válidos'),
-                      );
-                    }
+                      // Validar que sea un mapa válido
+                      if (consulta is! Map<String, dynamic>) {
+                        return const ListTile(
+                          title: Text('Datos no válidos'),
+                        );
+                      }
 
-                    // Accede a los valores del mapa con validación
-                    String specialty =
-                        consulta['especialidad'] ?? 'No disponible';
-                    String date;
+                      // Accede a los valores del mapa
+                      String specialty =
+                          consulta['especialidad'] ?? 'No disponible';
+                      String date;
+                      if (consulta['fecha_registro'] is Timestamp) {
+                        date = DateFormat('yyyy-MM-dd HH:mm:ss').format(
+                            (consulta['fecha_registro'] as Timestamp).toDate());
+                      } else {
+                        date = consulta['fecha_registro']?.toString() ??
+                            'No disponible';
+                      }
 
-                    // Valida si la fecha es un Timestamp
-                    if (consulta['fecha'] is Timestamp) {
-                      date = DateFormat('yyyy-MM-dd')
-                          .format((consulta['fecha'] as Timestamp).toDate());
-                    } else {
-                      date = consulta['fecha']?.toString() ?? 'No disponible';
-                    }
-
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.account_circle),
-                          title: Text('$specialty\n$date'),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.check_circle,
-                                color: Colors.green),
+                      return Column(
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.account_circle),
+                            title: Text('Especialidad: $specialty'),
+                            subtitle: Text('Fecha de registro: $date'),
                           ),
-                        ),
-                        const Divider(),
-                      ],
-                    );
-                  },
-                ),
-              ),
+                          const Divider(),
+                        ],
+                      );
+                    },
+                  )),
               const SizedBox(height: 20),
               // Botón Salir
               Align(
