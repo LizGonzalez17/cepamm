@@ -1,11 +1,13 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:residencia_cepamm/database/firebase_options.dart';
-import 'package:residencia_cepamm/src/login.dart';
+import 'package:firebase_core/firebase_core.dart'; //
+import 'package:flutter/material.dart'; //import
+import 'package:residencia_cepamm/database/firebase_options.dart'; //
+import 'package:residencia_cepamm/src/login.dart'; //
 
+//
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  DefaultFirebaseOptions.currentPlatform;
+  //
+  WidgetsFlutterBinding.ensureInitialized(); //
+  DefaultFirebaseOptions.currentPlatform; //
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());

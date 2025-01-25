@@ -1,6 +1,78 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Agregar extends StatelessWidget {
+class Agregar extends StatefulWidget {
+  const Agregar({super.key});
+
+  @override
+  State<Agregar> createState() => _AgregarState();
+}
+
+class _AgregarState extends State<Agregar> {
+  final TextEditingController tarjeta = TextEditingController();
+  final TextEditingController id = TextEditingController();
+  final TextEditingController aPaterno = TextEditingController();
+  final TextEditingController aMaterno = TextEditingController();
+  final TextEditingController nombres = TextEditingController();
+  final TextEditingController tipoPaciente = TextEditingController();
+  //final TextEditingController edad = TextEditingController();
+  final TextEditingController especialista = TextEditingController();
+  final TextEditingController rfc = TextEditingController();
+  final TextEditingController curp = TextEditingController();
+  final TextEditingController sexo = TextEditingController();
+  final TextEditingController fNacimiento = TextEditingController();
+  final TextEditingController lugar = TextEditingController();
+  //final TextEditingController dirección = TextEditingController();
+  final TextEditingController seguro = TextEditingController();
+  final TextEditingController tel = TextEditingController();
+  String? docId;
+  bool isLoading = false;
+  List<Map<String, dynamic>> historial = []; // Aquí guardaremos el historial
+
+  Future<void> saveData() async {
+    String idA = id.text;
+    String tar = tarjeta.text;
+    String ape = aPaterno.text;
+    String ama = aMaterno.text;
+    String nom = nombres.text;
+    String tpe = tipoPaciente.text;
+    //String edadE = edad.text;
+    String esp = especialista.text;
+    String rfE = rfc.text;
+    String cur = curp.text;
+    String sex = sexo.text;
+    String fnG = fNacimiento.text;
+    String seg = seguro.text;
+    String lug = lugar.text;
+    //String direccionH = direccion.text;
+    String telI = tel.text;
+
+    try {
+      await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
+        'id': idA,
+        'tarjeta': tar,
+        'apellido paterno': aPaterno,
+        'apellido materno': aMaterno,
+        'nombre(s)': nombres,
+        'tipoPciente': tpe,
+        'especialista': esp,
+        'rfc': rfE,
+        'curp': cur,
+        'seguro': seg,
+        'lugar': lug,
+        //'edad': edadE,
+        'sexo': sex,
+        'fecha nacimiento': fnG,
+        //'direccion': direccionH,
+        'tel': telI
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al guardar el alumno: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,12 +90,28 @@ class Agregar extends StatelessWidget {
               // Primera fila: ID, Nombre, Apellido Paterno y Apellido Materno
               Row(
                 children: [
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Número de tarjeta'),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('ID'),
                         TextFormField(
+                          controller: id,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -279,9 +367,7 @@ class Agregar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      // Acción de guardar
-                    },
+                    onPressed: saveData,
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
