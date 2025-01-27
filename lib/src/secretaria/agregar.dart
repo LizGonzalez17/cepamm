@@ -1,79 +1,85 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Agregar extends StatefulWidget {
-  const Agregar({super.key});
+  const Agregar({Key? key}) : super(key: key);
 
   @override
   State<Agregar> createState() => _AgregarState();
 }
 
 class _AgregarState extends State<Agregar> {
-  final TextEditingController tarjeta = TextEditingController();
+  //final TextEditingController tarjeta = TextEditingController(); //nueva
   final TextEditingController id = TextEditingController();
-  final TextEditingController aPaterno = TextEditingController();
-  final TextEditingController aMaterno = TextEditingController();
+  final TextEditingController ap = TextEditingController();
+  final TextEditingController am = TextEditingController();
   final TextEditingController nombres = TextEditingController();
-  final TextEditingController tipoPaciente = TextEditingController();
-  //final TextEditingController edad = TextEditingController();
-  final TextEditingController especialista = TextEditingController();
-  final TextEditingController rfc = TextEditingController();
-  final TextEditingController curp = TextEditingController();
+  final TextEditingController edad = TextEditingController();
   final TextEditingController sexo = TextEditingController();
-  final TextEditingController fNacimiento = TextEditingController();
-  final TextEditingController lugar = TextEditingController();
-  //final TextEditingController dirección = TextEditingController();
-  final TextEditingController seguro = TextEditingController();
+  final TextEditingController fn = TextEditingController();
+  final TextEditingController direccion = TextEditingController();
   final TextEditingController tel = TextEditingController();
-  //String? docId;
-  //bool isLoading = false;
-  //List<Map<String, dynamic>> historial = []; // Aquí guardaremos el historial
+  //final TextEditingController tipoPaciente = TextEditingController(); //
+  //final TextEditingController especialista = TextEditingController(); //
+  //final TextEditingController rfc = TextEditingController(); //
+  //final TextEditingController curp = TextEditingController(); //
+  //final TextEditingController lugar = TextEditingController(); //
+  //final TextEditingController seguro = TextEditingController(); //
 
   Future<void> saveData() async {
+    //String tar = tarjeta.text; //nuevo
     String idA = id.text;
-    String tar = tarjeta.text;
-    String ape = aPaterno.text;
-    String ama = aMaterno.text;
-    String nom = nombres.text;
-    String tpe = tipoPaciente.text;
-    //String edadE = edad.text;
-    String esp = especialista.text;
-    String rfE = rfc.text;
-    String cur = curp.text;
-    String sex = sexo.text;
-    String fnG = fNacimiento.text;
-    String seg = seguro.text;
-    String lug = lugar.text;
-    //String direccionH = direccion.text;
+    String apB = ap.text;
+    String amC = am.text;
+    String nombresD = nombres.text;
+    String edadE = edad.text;
+    String sexoF = sexo.text;
+    String fnG = fn.text;
+    String direccionH = direccion.text;
     String telI = tel.text;
+    //String tp = tipoPaciente.text; //
+    //String esp = especialista.text; //
+    //String rf = rfc.text; //
+    //String cur = curp.text; //
+    //String lug = lugar.text; //
+    //String seg = seguro.text; //
 
-    if (idA.isNotEmpty &&
-        ape.isNotEmpty &&
-        ama.isNotEmpty &&
-        nom.isNotEmpty &&
-        //edadE.isNotEmpty &&
-        sex.isNotEmpty &&
-        fnG.isNotEmpty &&
-        //direccionH.isNotEmpty &&
-        telI.isNotEmpty) {
+    if ( //tar.isNotEmpty && //
+        idA.isNotEmpty &&
+            apB.isNotEmpty &&
+            amC.isNotEmpty &&
+            nombresD.isNotEmpty &&
+            edadE.isNotEmpty &&
+            sexoF.isNotEmpty &&
+            fnG.isNotEmpty &&
+            direccionH.isNotEmpty &&
+            telI.isNotEmpty
+        //tp.isNotEmpty && //
+        //tp.isNotEmpty && //
+        //esp.isNotEmpty && //
+        //rf.isNotEmpty && //
+        //cur.isNotEmpty && //
+        //lug.isNotEmpty && //
+        //seg.isNotEmpty
+        ) {
       try {
         await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
+          //'tarjeta': tar, //
           'id': idA,
-          'tarjeta': tar,
-          'apellido paterno': aPaterno,
-          'apellido materno': aMaterno,
-          'nombre(s)': nombres,
-          'tipoPciente': tpe,
-          'especialista': esp,
-          'rfc': rfE,
-          'curp': cur,
-          'seguro': seg,
-          'lugar': lug,
-          //'edad': edadE,
-          'sexo': sex,
+          'apellido paterno': apB,
+          'apellido materno': amC,
+          'nombre(s)': nombresD,
+          'edad': edadE,
+          'sexo': sexoF,
           'fecha nacimiento': fnG,
-          //'direccion': direccionH,
-          'tel': telI
+          'direccion': direccionH,
+          'tel': telI,
+          //'tipoPaciente': tp,
+          //'especialista': esp,
+          //'rfc': rf,
+          //'curp': cur,
+          //'lugar': lug,
+          //'seguro': seg,
         });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -374,35 +380,98 @@ class _AgregarState extends State<Agregar> {
 
               // Botones
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  // Botón "Salir" con nuevo diseño
                   ElevatedButton(
-                    onPressed: saveData,
                     style: ElevatedButton.styleFrom(
+                      minimumSize: Size(120, 50), // Tamaño del botón
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                        borderRadius:
+                            BorderRadius.circular(8), // Bordes redondeados
                       ),
+                      backgroundColor: Colors.blue, // Fondo azul
+                      shadowColor: Colors.blueAccent, // Sombra azul
+                      elevation: 3, // Elevación para sombra
                     ),
-                    child: Text('Guardar'),
-                  ),
-                  SizedBox(width: 20),
-                  ElevatedButton(
                     onPressed: () {
-                      // Acción de salir
-                      Navigator.of(context).pop();
+                      Navigator.pop(context);
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                    child: const Text(
+                      'Salir',
+                      style: TextStyle(
+                        color: Colors.black, // Texto negro
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
-                    child: Text('Salir'),
+                  ),
+                  const SizedBox(width: 8),
+                  // Botón "Guardar" con nuevo diseño
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(120, 50), // Tamaño del botón
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(8), // Bordes redondeados
+                      ),
+                      backgroundColor: Colors.pink, // Fondo rosa
+                      shadowColor: Colors.pinkAccent, // Sombra rosa
+                      elevation: 3, // Elevación para sombra
+                    ),
+                    onPressed: () {
+                      // Lógica para guardar
+                      saveData();
+                    },
+                    child: const Text(
+                      'Guardar',
+                      style: TextStyle(
+                        color: Colors.black, // Texto negro
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TextFieldWithLabel extends StatelessWidget {
+  final String label;
+
+  const TextFieldWithLabel({
+    Key? key,
+    required this.label,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 4),
+          TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.grey[300],
+            ),
+          ),
+        ],
       ),
     );
   }
