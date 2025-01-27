@@ -25,9 +25,9 @@ class _AgregarState extends State<Agregar> {
   //final TextEditingController dirección = TextEditingController();
   final TextEditingController seguro = TextEditingController();
   final TextEditingController tel = TextEditingController();
-  String? docId;
-  bool isLoading = false;
-  List<Map<String, dynamic>> historial = []; // Aquí guardaremos el historial
+  //String? docId;
+  //bool isLoading = false;
+  //List<Map<String, dynamic>> historial = []; // Aquí guardaremos el historial
 
   Future<void> saveData() async {
     String idA = id.text;
@@ -47,29 +47,39 @@ class _AgregarState extends State<Agregar> {
     //String direccionH = direccion.text;
     String telI = tel.text;
 
-    try {
-      await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
-        'id': idA,
-        'tarjeta': tar,
-        'apellido paterno': aPaterno,
-        'apellido materno': aMaterno,
-        'nombre(s)': nombres,
-        'tipoPciente': tpe,
-        'especialista': esp,
-        'rfc': rfE,
-        'curp': cur,
-        'seguro': seg,
-        'lugar': lug,
-        //'edad': edadE,
-        'sexo': sex,
-        'fecha nacimiento': fnG,
-        //'direccion': direccionH,
-        'tel': telI
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al guardar el alumno: $e')),
-      );
+    if (idA.isNotEmpty &&
+        ape.isNotEmpty &&
+        ama.isNotEmpty &&
+        nom.isNotEmpty &&
+        //edadE.isNotEmpty &&
+        sex.isNotEmpty &&
+        fnG.isNotEmpty &&
+        //direccionH.isNotEmpty &&
+        telI.isNotEmpty) {
+      try {
+        await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
+          'id': idA,
+          'tarjeta': tar,
+          'apellido paterno': aPaterno,
+          'apellido materno': aMaterno,
+          'nombre(s)': nombres,
+          'tipoPciente': tpe,
+          'especialista': esp,
+          'rfc': rfE,
+          'curp': cur,
+          'seguro': seg,
+          'lugar': lug,
+          //'edad': edadE,
+          'sexo': sex,
+          'fecha nacimiento': fnG,
+          //'direccion': direccionH,
+          'tel': telI
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al guardar el alumno: $e')),
+        );
+      }
     }
   }
 
