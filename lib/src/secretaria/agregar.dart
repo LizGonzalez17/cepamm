@@ -9,80 +9,51 @@ class Agregar extends StatefulWidget {
 }
 
 class _AgregarState extends State<Agregar> {
-  final TextEditingController tarjeta = TextEditingController();
   final TextEditingController id = TextEditingController();
   final TextEditingController ap = TextEditingController();
   final TextEditingController am = TextEditingController();
   final TextEditingController nombres = TextEditingController();
-  final TextEditingController edadE = TextEditingController();
+  final TextEditingController edad = TextEditingController();
   final TextEditingController sexo = TextEditingController();
   final TextEditingController fn = TextEditingController();
-  final TextEditingController direccionH = TextEditingController();
+  final TextEditingController direccion = TextEditingController();
   final TextEditingController tel = TextEditingController();
-  final TextEditingController tipoPaciente = TextEditingController();
-  final TextEditingController especialista = TextEditingController();
-  final TextEditingController rfc = TextEditingController();
-  final TextEditingController curp = TextEditingController();
-  final TextEditingController lugar = TextEditingController();
-  final TextEditingController seguro = TextEditingController();
 
   Future<void> saveData() async {
-    String tar = tarjeta.text;
     String idA = id.text;
     String apB = ap.text;
     String amC = am.text;
     String nombresD = nombres.text;
-    String edad = edadE.text; //
+    String edadE = edad.text;
+    String sexoF = sexo.text;
     String fnG = fn.text;
-    String dir = direccionH.text; //
-    String telI = tel.text; //
-    String tp = tipoPaciente.text;
-    String esp = especialista.text;
-    String rf = rfc.text;
-    String cur = curp.text;
-    String lug = lugar.text;
-    String seg = seguro.text;
-    String sex = sexo.text;
+    String direccionH = direccion.text;
+    String telI = tel.text;
 
-    if (tar.isNotEmpty &&
-        idA.isNotEmpty &&
+    if (idA.isNotEmpty &&
         apB.isNotEmpty &&
         amC.isNotEmpty &&
-        sex.isNotEmpty &&
         nombresD.isNotEmpty &&
-        edad.isEmpty &&
+        edadE.isNotEmpty &&
+        sexoF.isNotEmpty &&
         fnG.isNotEmpty &&
-        dir.isNotEmpty &&
-        telI.isNotEmpty &&
-        tp.isNotEmpty &&
-        esp.isNotEmpty &&
-        rf.isNotEmpty &&
-        cur.isNotEmpty &&
-        lug.isNotEmpty &&
-        seg.isNotEmpty &&
-        sex.isNotEmpty) {
+        direccionH.isNotEmpty &&
+        telI.isNotEmpty) {
       try {
         await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
-          'tarjeta': tar,
           'id': idA,
           'apellido paterno': apB,
           'apellido materno': amC,
-          'sexo': sex,
           'nombre(s)': nombresD,
-          'edadE': edad, //
+          'edad': edadE,
+          'sexo': sexoF,
           'fecha nacimiento': fnG,
-          'direccion': direccionH, //
-          'tel': telI, //
-          'tipoPaciente': tp,
-          'especialista': esp,
-          'rfc': rf,
-          'curp': cur,
-          'lugar': lug,
-          'seguro': seg,
+          'direccion': direccionH,
+          'tel': telI
         });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al guardar el paciente: $e')),
+          SnackBar(content: Text('Error al guardar el alumno: $e')),
         );
       }
     }
@@ -90,382 +61,215 @@ class _AgregarState extends State<Agregar> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Editar Paciente'),
-          centerTitle: true,
-          backgroundColor: Colors.blue,
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Número de tarjeta'),
-                        TextFormField(
-                          controller: tarjeta,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('ID'),
-                        TextFormField(
-                          controller: id,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Nombre'),
-                        TextFormField(
-                          controller: nombres,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Apellido Paterno'),
-                        TextFormField(
-                          controller: ap,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Apellido Materno'),
-                        TextFormField(
-                          controller: am,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Imagen de fondo
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.2, // Transparencia de la imagen
+              child: Image.asset(
+                'assets/sin.png',
+                fit: BoxFit.cover,
               ),
-              Row(
-                children: [
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Edad'),
-                        TextFormField(
-                          controller: edadE,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.number,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Dirección'),
-                        TextFormField(
-                          controller: direccionH,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Teléfono'),
-                        TextFormField(
-                          controller: tel,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.phone,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Tipo Paciente'),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('General'),
-                              value: 'General',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Especialista'),
-                              value: 'Especialista',
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              tipoPaciente.text = value ?? '';
-                            });
-                          },
-                          value: tipoPaciente.text.isEmpty
-                              ? null
-                              : tipoPaciente.text,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Especialista'),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('Cardiología'),
-                              value: 'Cardiología',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Neurología'),
-                              value: 'Neurología',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Dermatología'),
-                              value: 'Dermatología',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Pediatría'),
-                              value: 'Pediatría',
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              especialista.text = value ?? '';
-                            });
-                          },
-                          value: especialista.text.isEmpty
-                              ? null
-                              : especialista.text,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Fecha de Nacimiento'),
-                        TextFormField(
-                          controller: fn,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.datetime,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Sexo'),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('Masculino'),
-                              value: 'Masculino',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Femenino'),
-                              value: 'Femenino',
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              sexo.text = value ?? '';
-                            });
-                          },
-                          value: sexo.text.isEmpty ? null : sexo.text,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('RFC'),
-                        TextFormField(
-                          controller: rfc,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('CURP'),
-                        TextFormField(
-                          controller: curp,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Lugar donde nos encontró'),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('Calle'),
-                              value: 'Calle',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Publicidad'),
-                              value: 'Publicidad',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Redes Sociales'),
-                              value: 'Redes Sociales',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('Recomendación'),
-                              value: 'Recomendación',
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              lugar.text = value ?? '';
-                            });
-                          },
-                          value: lugar.text.isEmpty ? null : lugar.text,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('¿Tiene seguro?'),
-                        DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('Sí'),
-                              value: 'Sí',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('No'),
-                              value: 'No',
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              seguro.text = value ?? '';
-                            });
-                          },
-                          value: seguro.text.isEmpty ? null : seguro.text,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  saveData();
-                },
-                child: Text('Guardar Datos'),
-              ),
-            ],
+            ),
           ),
-        ),
+          SingleChildScrollView(
+            // Agregar SingleChildScrollView para evitar desbordamiento
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Center(
+                  child: Text(
+                    'fundación CEPAMM\nMÓDULO DE AÑADIR REGISTRO',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // El campo de ID Paciente más arriba
+                TextField(
+                  controller: id,
+                  decoration: InputDecoration(hintText: "id"),
+                ),
+                const SizedBox(height: 16),
+                // Organización de campos en pares
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: ap,
+                            decoration:
+                                InputDecoration(hintText: "Apellido Paterno"),
+                          ),
+                          TextField(
+                            controller: nombres,
+                            decoration: InputDecoration(hintText: "Nombre(s)"),
+                          ),
+                          TextField(
+                            controller: sexo,
+                            decoration: InputDecoration(hintText: "Sexo"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: am,
+                            decoration:
+                                InputDecoration(hintText: "Apellido Materno"),
+                          ),
+                          TextField(
+                            controller: edad,
+                            decoration: InputDecoration(hintText: "Edad"),
+                          ),
+                          TextField(
+                            controller: fn,
+                            decoration: InputDecoration(
+                                hintText: "Fecha de nacimiento"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Últimos campos en pares
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: direccion,
+                            decoration: InputDecoration(hintText: "Dirección"),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextField(
+                            controller: tel,
+                            decoration: InputDecoration(hintText: "Teléfono"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                    height:
+                        32), // Espacio adicional para mover los botones abajo
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Botón "Salir" con nuevo diseño
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(120, 50), // Tamaño del botón
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(8), // Bordes redondeados
+                        ),
+                        backgroundColor: Colors.blue, // Fondo azul
+                        shadowColor: Colors.blueAccent, // Sombra azul
+                        elevation: 3, // Elevación para sombra
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Salir',
+                        style: TextStyle(
+                          color: Colors.black, // Texto negro
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // Botón "Guardar" con nuevo diseño
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(120, 50), // Tamaño del botón
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(8), // Bordes redondeados
+                        ),
+                        backgroundColor: Colors.pink, // Fondo rosa
+                        shadowColor: Colors.pinkAccent, // Sombra rosa
+                        elevation: 3, // Elevación para sombra
+                      ),
+                      onPressed: () {
+                        // Lógica para guardar
+                        saveData();
+                      },
+                      child: const Text(
+                        'Guardar',
+                        style: TextStyle(
+                          color: Colors.black, // Texto negro
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TextFieldWithLabel extends StatelessWidget {
+  final String label;
+
+  const TextFieldWithLabel({
+    Key? key,
+    required this.label,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 4),
+          TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              filled: true,
+              fillColor: Colors.grey[300],
+            ),
+          ),
+        ],
       ),
     );
   }
