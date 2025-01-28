@@ -209,11 +209,27 @@ class PacientesPage extends StatelessWidget {
                       // Botón para agregar un nuevo registro
                       texto: "Añadir Registro",
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Agregar())); // Navega a la página de agregar
+                        showDialog(
+                          // Muestra un cuadro de diálogo
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              // Diálogo con diseño personalizado
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10), // Bordes redondeados
+                              ),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.9, // Ancho del modal
+                                height: MediaQuery.of(context).size.height *
+                                    0.8, // Altura del modal
+                                child:
+                                    Agregar(), // Muestra la página de pacientes
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                     const SizedBox(height: 20),
@@ -221,11 +237,27 @@ class PacientesPage extends StatelessWidget {
                       // Botón para consultar datos
                       texto: "Consultar Datos",
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Consultar())); // Navega a la página de consultar
+                        showDialog(
+                          // Muestra un cuadro de diálogo
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              // Diálogo con diseño personalizado
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10), // Bordes redondeados
+                              ),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.9, // Ancho del modal
+                                height: MediaQuery.of(context).size.height *
+                                    0.8, // Altura del modal
+                                child:
+                                    Consultar(), // Muestra la página de pacientes
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                     const SizedBox(height: 20),
@@ -233,11 +265,27 @@ class PacientesPage extends StatelessWidget {
                       // Botón para editar un registro
                       texto: "Editar Registro",
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Modificar())); // Navega a la página de modificar
+                        showDialog(
+                          // Muestra un cuadro de diálogo
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              // Diálogo con diseño personalizado
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10), // Bordes redondeados
+                              ),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    0.9, // Ancho del modal
+                                height: MediaQuery.of(context).size.height *
+                                    0.8, // Altura del modal
+                                child:
+                                    Modificar(), // Muestra la página de pacientes
+                              ),
+                            );
+                          },
+                        );
                       },
                     ),
                   ],

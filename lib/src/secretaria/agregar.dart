@@ -10,6 +10,7 @@ class Agregar extends StatefulWidget {
 
 class _AgregarState extends State<Agregar> {
   final TextEditingController id = TextEditingController();
+  final TextEditingController targeta = TextEditingController();
   final TextEditingController ap = TextEditingController();
   final TextEditingController am = TextEditingController();
   final TextEditingController nombres = TextEditingController();
@@ -18,9 +19,50 @@ class _AgregarState extends State<Agregar> {
   final TextEditingController fn = TextEditingController();
   final TextEditingController direccion = TextEditingController();
   final TextEditingController tel = TextEditingController();
+  void showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmación'),
+          content: Column(
+            children: [
+              Text('Asignar targeta'),
+              TextField(
+                controller: targeta,
+                decoration: InputDecoration(hintText: "Targeta"),
+              )
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el diálogo
+              },
+              child: const Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cerrar el diálogo
+                saveData(); // Llamar a la función de guardar
+              },
+              child: const Text(
+                'Aceptar',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> saveData() async {
     String idA = id.text;
+    String tar = targeta.text;
     String apB = ap.text;
     String amC = am.text;
     String nombresD = nombres.text;
@@ -31,6 +73,7 @@ class _AgregarState extends State<Agregar> {
     String telI = tel.text;
 
     if (idA.isNotEmpty &&
+        tar.isNotEmpty &&
         apB.isNotEmpty &&
         amC.isNotEmpty &&
         nombresD.isNotEmpty &&
@@ -42,12 +85,13 @@ class _AgregarState extends State<Agregar> {
       try {
         await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
           'id': idA,
-          'apellido paterno': apB,
-          'apellido materno': amC,
-          'nombre(s)': nombresD,
+          'targeta': tar,
+          'aPaterno': apB,
+          'aMaterno': amC,
+          'nombres': nombresD,
           'edad': edadE,
           'sexo': sexoF,
-          'fecha nacimiento': fnG,
+          'fNacimiento': fnG,
           'direccion': direccionH,
           'tel': telI
         });
@@ -90,6 +134,7 @@ class _AgregarState extends State<Agregar> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 16),
                 // El campo de ID Paciente más arriba
                 TextField(
@@ -216,10 +261,7 @@ class _AgregarState extends State<Agregar> {
                         shadowColor: Colors.pinkAccent, // Sombra rosa
                         elevation: 3, // Elevación para sombra
                       ),
-                      onPressed: () {
-                        // Lógica para guardar
-                        saveData();
-                      },
+                      onPressed: showConfirmationDialog,
                       child: const Text(
                         'Guardar',
                         style: TextStyle(
