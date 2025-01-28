@@ -9,81 +9,80 @@ class Agregar extends StatefulWidget {
 }
 
 class _AgregarState extends State<Agregar> {
-  //final TextEditingController tarjeta = TextEditingController(); //nueva
+  final TextEditingController tarjeta = TextEditingController();
   final TextEditingController id = TextEditingController();
   final TextEditingController ap = TextEditingController();
   final TextEditingController am = TextEditingController();
   final TextEditingController nombres = TextEditingController();
-  final TextEditingController edad = TextEditingController();
+  final TextEditingController edadE = TextEditingController();
   final TextEditingController sexo = TextEditingController();
   final TextEditingController fn = TextEditingController();
-  final TextEditingController direccion = TextEditingController();
+  final TextEditingController direccionH = TextEditingController();
   final TextEditingController tel = TextEditingController();
-  //final TextEditingController tipoPaciente = TextEditingController(); //
-  //final TextEditingController especialista = TextEditingController(); //
-  //final TextEditingController rfc = TextEditingController(); //
-  //final TextEditingController curp = TextEditingController(); //
-  //final TextEditingController lugar = TextEditingController(); //
-  //final TextEditingController seguro = TextEditingController(); //
+  final TextEditingController tipoPaciente = TextEditingController();
+  final TextEditingController especialista = TextEditingController();
+  final TextEditingController rfc = TextEditingController();
+  final TextEditingController curp = TextEditingController();
+  final TextEditingController lugar = TextEditingController();
+  final TextEditingController seguro = TextEditingController();
 
   Future<void> saveData() async {
-    //String tar = tarjeta.text; //nuevo
+    String tar = tarjeta.text;
     String idA = id.text;
     String apB = ap.text;
     String amC = am.text;
     String nombresD = nombres.text;
-    String edadE = edad.text;
-    String sexoF = sexo.text;
+    String edad = edadE.text; //
     String fnG = fn.text;
-    String direccionH = direccion.text;
-    String telI = tel.text;
-    //String tp = tipoPaciente.text; //
-    //String esp = especialista.text; //
-    //String rf = rfc.text; //
-    //String cur = curp.text; //
-    //String lug = lugar.text; //
-    //String seg = seguro.text; //
+    String dir = direccionH.text; //
+    String telI = tel.text; //
+    String tp = tipoPaciente.text;
+    String esp = especialista.text;
+    String rf = rfc.text;
+    String cur = curp.text;
+    String lug = lugar.text;
+    String seg = seguro.text;
+    String sex = sexo.text;
 
-    if ( //tar.isNotEmpty && //
+    if (tar.isNotEmpty &&
         idA.isNotEmpty &&
-            apB.isNotEmpty &&
-            amC.isNotEmpty &&
-            nombresD.isNotEmpty &&
-            edadE.isNotEmpty &&
-            sexoF.isNotEmpty &&
-            fnG.isNotEmpty &&
-            direccionH.isNotEmpty &&
-            telI.isNotEmpty
-        //tp.isNotEmpty && //
-        //tp.isNotEmpty && //
-        //esp.isNotEmpty && //
-        //rf.isNotEmpty && //
-        //cur.isNotEmpty && //
-        //lug.isNotEmpty && //
-        //seg.isNotEmpty
-        ) {
+        apB.isNotEmpty &&
+        amC.isNotEmpty &&
+        sex.isNotEmpty &&
+        nombresD.isNotEmpty &&
+        edad.isEmpty &&
+        fnG.isNotEmpty &&
+        dir.isNotEmpty &&
+        telI.isNotEmpty &&
+        tp.isNotEmpty &&
+        esp.isNotEmpty &&
+        rf.isNotEmpty &&
+        cur.isNotEmpty &&
+        lug.isNotEmpty &&
+        seg.isNotEmpty &&
+        sex.isNotEmpty) {
       try {
         await FirebaseFirestore.instance.collection('paciente').doc(idA).set({
-          //'tarjeta': tar, //
+          'tarjeta': tar,
           'id': idA,
           'apellido paterno': apB,
           'apellido materno': amC,
+          'sexo': sex,
           'nombre(s)': nombresD,
-          'edad': edadE,
-          'sexo': sexoF,
+          'edadE': edad, //
           'fecha nacimiento': fnG,
-          'direccion': direccionH,
-          'tel': telI,
-          //'tipoPaciente': tp,
-          //'especialista': esp,
-          //'rfc': rf,
-          //'curp': cur,
-          //'lugar': lug,
-          //'seguro': seg,
+          'direccion': direccionH, //
+          'tel': telI, //
+          'tipoPaciente': tp,
+          'especialista': esp,
+          'rfc': rf,
+          'curp': cur,
+          'lugar': lug,
+          'seguro': seg,
         });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al guardar el alumno: $e')),
+          SnackBar(content: Text('Error al guardar el paciente: $e')),
         );
       }
     }
@@ -103,16 +102,15 @@ class _AgregarState extends State<Agregar> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Primera fila: ID, Nombre, Apellido Paterno y Apellido Materno
               Row(
                 children: [
-                  SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Número de tarjeta'),
                         TextFormField(
+                          controller: tarjeta,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -143,6 +141,7 @@ class _AgregarState extends State<Agregar> {
                       children: [
                         Text('Nombre'),
                         TextFormField(
+                          controller: nombres,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -157,6 +156,7 @@ class _AgregarState extends State<Agregar> {
                       children: [
                         Text('Apellido Paterno'),
                         TextFormField(
+                          controller: ap,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -171,6 +171,7 @@ class _AgregarState extends State<Agregar> {
                       children: [
                         Text('Apellido Materno'),
                         TextFormField(
+                          controller: am,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -180,9 +181,58 @@ class _AgregarState extends State<Agregar> {
                   ),
                 ],
               ),
+              Row(
+                children: [
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Edad'),
+                        TextFormField(
+                          controller: edadE,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Dirección'),
+                        TextFormField(
+                          controller: direccionH,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Teléfono'),
+                        TextFormField(
+                          controller: tel,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.phone,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 10),
-
-              // Segunda fila: Tipo de Paciente, Especialista, Fecha de Nacimiento, Sexo
               Row(
                 children: [
                   Expanded(
@@ -204,7 +254,14 @@ class _AgregarState extends State<Agregar> {
                               value: 'Especialista',
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              tipoPaciente.text = value ?? '';
+                            });
+                          },
+                          value: tipoPaciente.text.isEmpty
+                              ? null
+                              : tipoPaciente.text,
                         ),
                       ],
                     ),
@@ -237,7 +294,14 @@ class _AgregarState extends State<Agregar> {
                               value: 'Pediatría',
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              especialista.text = value ?? '';
+                            });
+                          },
+                          value: especialista.text.isEmpty
+                              ? null
+                              : especialista.text,
                         ),
                       ],
                     ),
@@ -249,6 +313,7 @@ class _AgregarState extends State<Agregar> {
                       children: [
                         Text('Fecha de Nacimiento'),
                         TextFormField(
+                          controller: fn,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -277,7 +342,12 @@ class _AgregarState extends State<Agregar> {
                               value: 'Femenino',
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              sexo.text = value ?? '';
+                            });
+                          },
+                          value: sexo.text.isEmpty ? null : sexo.text,
                         ),
                       ],
                     ),
@@ -285,8 +355,6 @@ class _AgregarState extends State<Agregar> {
                 ],
               ),
               SizedBox(height: 10),
-
-              // Tercera fila: RFC, CURP, Lugar donde nos encontró, ¿Tiene seguro?
               Row(
                 children: [
                   Expanded(
@@ -295,6 +363,7 @@ class _AgregarState extends State<Agregar> {
                       children: [
                         Text('RFC'),
                         TextFormField(
+                          controller: rfc,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -309,6 +378,7 @@ class _AgregarState extends State<Agregar> {
                       children: [
                         Text('CURP'),
                         TextFormField(
+                          controller: curp,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -344,7 +414,12 @@ class _AgregarState extends State<Agregar> {
                               value: 'Recomendación',
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              lugar.text = value ?? '';
+                            });
+                          },
+                          value: lugar.text.isEmpty ? null : lugar.text,
                         ),
                       ],
                     ),
@@ -369,7 +444,12 @@ class _AgregarState extends State<Agregar> {
                               value: 'No',
                             ),
                           ],
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              seguro.text = value ?? '';
+                            });
+                          },
+                          value: seguro.text.isEmpty ? null : seguro.text,
                         ),
                       ],
                     ),
@@ -377,101 +457,15 @@ class _AgregarState extends State<Agregar> {
                 ],
               ),
               SizedBox(height: 20),
-
-              // Botones
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // Botón "Salir" con nuevo diseño
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(120, 50), // Tamaño del botón
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(8), // Bordes redondeados
-                      ),
-                      backgroundColor: Colors.blue, // Fondo azul
-                      shadowColor: Colors.blueAccent, // Sombra azul
-                      elevation: 3, // Elevación para sombra
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Salir',
-                      style: TextStyle(
-                        color: Colors.black, // Texto negro
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  // Botón "Guardar" con nuevo diseño
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(120, 50), // Tamaño del botón
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(8), // Bordes redondeados
-                      ),
-                      backgroundColor: Colors.pink, // Fondo rosa
-                      shadowColor: Colors.pinkAccent, // Sombra rosa
-                      elevation: 3, // Elevación para sombra
-                    ),
-                    onPressed: () {
-                      // Lógica para guardar
-                      saveData();
-                    },
-                    child: const Text(
-                      'Guardar',
-                      style: TextStyle(
-                        color: Colors.black, // Texto negro
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: () {
+                  saveData();
+                },
+                child: Text('Guardar Datos'),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class TextFieldWithLabel extends StatelessWidget {
-  final String label;
-
-  const TextFieldWithLabel({
-    Key? key,
-    required this.label,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 4),
-          TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.grey[300],
-            ),
-          ),
-        ],
       ),
     );
   }
