@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart'; // Importa la librería de Flutter Material Design, utilizada para construir la interfaz de usuario.
 import 'package:residencia_cepamm/src/inicio.dart'; // Importa la pantalla de inicio después de un login exitoso.
-import 'package:residencia_cepamm/src/turnos/consultaMedica.dart'; // Importa la pantalla de consulta médica.
-import 'package:residencia_cepamm/src/turnos/consultarMturno.dart'; // Importa la pantalla para consultar turnos médicos.
-import 'package:residencia_cepamm/src/turnos/turnos.dart'; // Importa la pantalla de turnos.
 
 class Login extends StatefulWidget {
   // Definición de la clase Login, que extiende StatefulWidget para tener estado mutable.
@@ -35,6 +32,7 @@ class _LoginState extends State<Login> {
                   // Se usa un gradiente de colores.
                   colors: [
                     Colors.white, // Definición del color del gradiente.
+                    Colors.pink
                   ],
                   begin: Alignment
                       .topLeft, // El gradiente comienza en la esquina superior izquierda.

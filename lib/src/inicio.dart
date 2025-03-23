@@ -1,6 +1,7 @@
 // Importaciones de paquetes y otros archivos
 import 'package:flutter/material.dart'; // Importa las herramientas de diseño y material de Flutter
-import 'package:residencia_cepamm/src/secretaria/agregar.dart'; // Importa la página para agregar un registro
+import 'package:residencia_cepamm/src/Paciente/paciente.dart';
+import 'package:residencia_cepamm/src/Paciente/agregar.dart'; // Importa la página para agregar un registro
 import 'package:residencia_cepamm/src/secretaria/consultar.dart'; // Importa la página para consultar datos
 import 'package:residencia_cepamm/src/secretaria/modificar.dart'; // Importa la página para modificar registros
 
@@ -74,6 +75,9 @@ class _InicioState extends State<Inicio> {
               leading: const Icon(Icons.person), // Icono de pacientes
               title: const Text('Pacientes'), // Título del elemento
               onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Paciente()));
+                /** 
                 showDialog(
                   // Muestra un cuadro de diálogo
                   context: context,
@@ -94,7 +98,7 @@ class _InicioState extends State<Inicio> {
                       ),
                     );
                   },
-                );
+                );*/
               },
             ),
             ListTile(

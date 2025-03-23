@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart'; // Importa la librería de Firebase Core, necesaria para inicializar Firebase en la aplicación.
 import 'package:flutter/material.dart'; // Importa la librería de Flutter Material Design, usada para construir la interfaz de usuario.
 import 'package:residencia_cepamm/database/firebase_options.dart'; // Importa las opciones de configuración de Firebase, que contienen las credenciales de acceso a Firebase para la aplicación.
-import 'package:residencia_cepamm/src/login.dart'; // Importa la pantalla de login desde el proyecto (la pantalla de inicio de sesión).
+import 'package:residencia_cepamm/src/login.dart';
 
 Future<void> main() async {
   // Función principal que se ejecuta al iniciar la aplicación.
