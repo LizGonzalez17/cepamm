@@ -47,8 +47,6 @@ class _PacienteState extends State<Paciente> {
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('paciente')
-                    .where('nombres', isGreaterThanOrEqualTo: searchQuery)
-                    .where('nombres', isLessThan: searchQuery + 'z')
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -59,31 +57,40 @@ class _PacienteState extends State<Paciente> {
                     return Center(child: Text('No hay pacientes registrados'));
                   }
 
+                  // Convertir la búsqueda a minúsculas
+                  String queryLower = searchQuery.toLowerCase();
+
+                  // Filtrar resultados ignorando mayúsculas y minúsculas
+                  var filteredDocs = snapshot.data!.docs.where((doc) {
+                    var data = doc.data() as Map<String, dynamic>;
+                    String nombreCompleto =
+                        '${data['nombres']} ${data['aPaterno']} ${data['aMaterno']}'
+                            .toLowerCase();
+                    return nombreCompleto.contains(queryLower);
+                  }).toList();
+
+                  if (filteredDocs.isEmpty) {
+                    return Center(child: Text('No se encontraron pacientes'));
+                  }
+
                   return ListView(
-                    children: snapshot.data!.docs.map((doc) {
+                    children: filteredDocs.map((doc) {
                       var data = doc.data() as Map<String, dynamic>;
                       return Card(
                         margin: EdgeInsets.symmetric(vertical: 8),
-                        elevation: 5, // Sombra para las tarjetas
+                        elevation: 5,
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(15), // Bordes redondeados
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         child: ListTile(
-                          leading: Icon(
-                            Icons.person,
-                            color: Colors
-                                .teal, // Color más atractivo para el icono
-                          ),
+                          leading: Icon(Icons.person, color: Colors.teal),
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 '${data['nombres']} ${data['aPaterno']} ${data['aMaterno']}',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                                    fontWeight: FontWeight.bold, fontSize: 16),
                               ),
                               Text(
                                 'ID: ${data['id']}',
@@ -97,17 +104,16 @@ class _PacienteState extends State<Paciente> {
                             style:
                                 TextStyle(fontSize: 14, color: Colors.black87),
                           ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.teal,
-                          ),
+                          trailing:
+                              Icon(Icons.arrow_forward_ios, color: Colors.teal),
                           onTap: () {
-                            // Aquí puedes navegar a detalles o hacer alguna acción
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        Perfilpaciente(id: data['id'])));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Perfilpaciente(id: data['id']),
+                              ),
+                            );
                           },
                         ),
                       );
